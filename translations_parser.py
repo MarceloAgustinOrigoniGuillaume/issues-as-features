@@ -42,17 +42,28 @@ class Statement:
 		res = ""
 
 		for row in self.table_rows:
-			res+= "|"+"|".join(row)+"|\n"
+			res+= "row: "+", ".join(row)+" ... "
 
 		return res
 
 	def parse_table(self):
 
-		return "" if len(self.table_headers)== 0 else ":\n|"+"|".join(self.table_headers)+"|\n"+self.parse_rows()
+		return "" if len(self.table_headers)== 0 else ": cols: "+", ".join(self.table_headers)+" ... "+self.parse_rows()
 
 
 	def __repr__(self):
 		return self.description+self.parse_table()
+
+	def parse_table_desc(self):
+		res = self.description
+
+		if(len(self.table_headers) >0):
+			res+= "\n|"+"|".join(self.table_headers)+"|"
+			res+= "\n|"+"-|"*len(self.table_headers)
+			for row in self.table_rows:
+				res+= "\n|"+"|".join(row)+"|"
+
+		return res
 
 
 translations = {}
@@ -142,6 +153,29 @@ def replace_base(src, grp_replace):
 
 	res+= src[last_end:]
 	return res
+
+
+def replace_general(pattern, src, replacer):
+
+	res = ""
+	last_end = 0
+	span= None
+	grp = ""
+	for match in re.finditer(pattern, src):
+		span = match.span()
+
+		res+= src[last_end:span[0]]
+		last_end = span[1]
+
+		res+= replacer(match)
+			
+
+	res+= src[last_end:]
+	return res
+
+
+
+
 
 #replace_base("untexto dos (cosa rara) y (?) fin!", "(.*)")
 

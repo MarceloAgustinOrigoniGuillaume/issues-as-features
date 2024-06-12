@@ -146,14 +146,27 @@ class Feature:
 		return self.toText()
 
 
-part_join = " and "
-
+part_join = " y "
 
 
 
 
 def parse(feat):
-	output = "## "+feat.name()+"\n"
+	output = "# "+feat.name()+"\n"
+
+
+	for scene in feat.scenarios:
+		output+= "## Escenario: "+scene.name()+"\n"
+		output+= "### Dado: "+parse_items_text(scene.pre_conditions())+"\n"
+		output+= "### Cuando: "+parse_items_text(scene.actions())+"\n"
+		output+= "### Entonces: "+parse_items_text(scene.post_conditions())+"\n"
+
+	return output
+
+
+
+def parse_table(feat):
+	output = "# "+feat.name()+"\n"
 
 	output+= "\n|Escenario|Contexto|Evento|Resultado\n|-|-|-|-|"
 
@@ -172,6 +185,10 @@ def parse(feat):
 
 def parse_items(items):
 	return part_join.join(translate(items))
+
+
+def parse_items_text(items):
+	return ("\n###"+part_join).join(translate(list(item.parse_table_desc() for item in items)))
 
 
 
@@ -207,9 +224,13 @@ def parse_path(url):
 def exec(comm, feat):
 	global feature
 	#print("FEAT IS ",feat)
+	if(comm == "table"):
+		print("'"+parse_table(feat)+"'")
+		return True
+
 	if(comm == "parse"):
 		print("'"+parse(feat)+"'")
-		return True
+		return True		
 
 
 	if(comm == "cls"):

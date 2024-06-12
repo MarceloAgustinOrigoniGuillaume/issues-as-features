@@ -19,8 +19,8 @@ if(__name__ == "__main__"):
 
 
 		if(len(sys.argv)>2):
-			#print("FOR NOW IGNORE trans at ",ghfeat.parse_path(sys.argv[2]))
-			ghtrans.parse_translations(ghfeat.parse_path(sys.argv[2]))
+			print("FOR NOW IGNORE trans at ",ghfeat.parse_path(sys.argv[2]))
+			#ghtrans.parse_translations(ghfeat.parse_path(sys.argv[2]))
 
 
 	command = input("action>")

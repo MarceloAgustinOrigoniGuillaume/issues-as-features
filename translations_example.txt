@@ -2,6 +2,9 @@
 'a project "(?)" with no leader' -> 'un proyecto "?1" sin lider'
 'a project "(?)" with leader "(?)"' -> 'un proyecto "?1" con lider "?2"'
 'a project "(?)" with name "(?)"' -> 'un proyecto "?1" con nombre "?2"'
+'the projects' -> 'los proyectos'
+'the employees' -> 'los empleados'
+'the tasks' -> 'las tareas'
 
 'the existence of the worker "(?)"' -> 'la existencia de un trabajador "?1"'
 
