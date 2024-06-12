@@ -66,6 +66,27 @@ class Statement:
 		return res
 
 
+
+def replace_general(pattern, src, replacer):
+
+	res = ""
+	last_end = 0
+	span= None
+	grp = ""
+	for match in re.finditer(pattern, src):
+		span = match.span()
+
+		res+= src[last_end:span[0]]
+		last_end = span[1]
+
+		res+= replacer(match)
+			
+
+	res+= src[last_end:]
+	return res
+
+
+
 translations = {}
 trans_keys = []
 pattern_all = r""
@@ -79,49 +100,50 @@ TRANSLATION_PATT = r"'(.*)'"+PARSE_SEP+r"'(.*)'"
 matcher_trans = re.compile(TRANSLATION_PATT)
 matcher_replace = re.compile(pattern_replace)
 
+
+def translation_replacer(match):
+	item = match.group()
+	if match != None:
+		groups = match.groups()
+
+		indGrp = 0
+		while(indGrp < len(trans_keys) and groups[indGrp] == None):
+			indGrp+=1
+
+		if (indGrp == len(trans_keys)):
+			print("--------------SOME ERROR NOT MATCHED ANYTHING?! at item ",item)
+			return item
+
+		#print("---------------- translation is ",indGrp, "WICH MEANS IS ",trans_keys[indGrp])
+		match = re.match(trans_keys[indGrp], item)
+		if(match == None):
+			print("------- error failed to match and find groups on reg? itm ",item,"MATCHED ", groups[indGrp])
+			return item
+
+		groups = match.groups()
+		#print("-----",groups)
+
+		trans = translations[trans_keys[indGrp]]
+		ind = 1
+
+		for grp in groups:
+			if(grp == None):
+				break
+			trans = trans.replace("?"+str(ind), str(grp))
+			ind+=1
+
+		return trans
+	
+	return end.append(item)
+
+
 def translate(items):
 	if(len(trans_keys) == 0):
 		return list(str(item) for item in items)
 
 	end = []
 	for item in items:
-		item = str(item)
-		match =re.match(pattern_all, item)#re.match(r"(?:"+pattern_all+r")", item)
-
-		if match != None:
-			groups = match.groups()
-
-			indGrp = 0
-			#print("GROUPS ALL ?!",groups)
-			while(indGrp < len(trans_keys) and groups[indGrp] == None):
-				indGrp+=1
-
-			if (indGrp == len(trans_keys)):
-				print("--------------SOME ERROR NOT MATCHED ANYTHING?! at item ",item)
-				end.append(item)
-				continue
-
-			#print("---------------- translation is ",indGrp, "WICH MEANS IS ",trans_keys[indGrp])
-			match = re.match(trans_keys[indGrp], item)
-			if(match == None):
-				print("------- error failed to match and find groups on reg? itm ",item,"MATCHED ", groups[indGrp])
-				end.append(item)
-				continue
-
-			groups = match.groups()
-			#print("-----",groups)
-
-			trans = translations[trans_keys[indGrp]]
-			ind = 1
-
-			for grp in groups:
-				if(grp == None):
-					break
-				trans = trans.replace("?"+str(ind), str(grp))
-				ind+=1
-			end.append(trans)
-		else:
-			end.append(item)
+		end.append(replace_general(pattern_all, str(item), translation_replacer))
 
 	return end
 
@@ -153,26 +175,6 @@ def replace_base(src, grp_replace):
 
 	res+= src[last_end:]
 	return res
-
-
-def replace_general(pattern, src, replacer):
-
-	res = ""
-	last_end = 0
-	span= None
-	grp = ""
-	for match in re.finditer(pattern, src):
-		span = match.span()
-
-		res+= src[last_end:span[0]]
-		last_end = span[1]
-
-		res+= replacer(match)
-			
-
-	res+= src[last_end:]
-	return res
-
 
 
 
