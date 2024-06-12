@@ -1,0 +1,38 @@
+#givens!
+'a project "(?)" with no leader' -> 'un proyecto "?1" sin lider'
+'a project "(?)" with leader "(?)"' -> 'un proyecto "?1" con lider "?2"'
+'a project "(?)" with name "(?)"' -> 'un proyecto "?1" con nombre "?2"'
+
+'the existence of the worker "(?)"' -> 'la existencia de un trabajador "?1"'
+
+
+#tasks
+'a task "(?)" with name "(?)" on "(?)"' -> 'una tarea id "?1" con nombre "?2" en el proyecto (?3)'
+
+
+
+# WHENS
+'the admin assigns "(?)" as the leader of "(?)"' -> 'el admin asigna a "?1" como lider de "?2"'
+'the admin creates a project with name "(?)"' -> 'el admin crea un proyecto con nombre "?1"'
+'the admin deletes a project with id "(?)"' -> 'el admin borra un proyecto con id "?1"'
+
+'the admin creates a task with name "(?)" on "(?)"' -> 'el admin crea una tarea con nombre "?1" en "?2"'
+'the admin deletes a task with id "(?)"' -> 'el admin borra una tarea con id "?1"'
+
+#thens!
+
+'the admin is notified that the project already has a leader' -> 'el admin es notificado que el proyecto ya tiene lider'
+'the admin is notified that the project does not exist' -> 'el admin es notificado que el proyecto no existe'
+'the admin is notified that the given project leader does not exist' -> 'el admin es notificado que el lider no existe'
+
+'the admin is notified that the project already exists and duplicates are not allowed' 
+-> 'el admin es notificado que un proyecto con el mismo nombre ya existe'
+
+'"(?)" is added as the leader of "(?)"' -> '"?1" es asignado como lider de "?2"'
+'the project with name "(?)" is created' -> 'El proyecto con nombre "?1" es creado'
+'the project with id "(?)" is deleted' -> 'El proyecto con id "?1" es borrado'
+
+'the task with name "(?)" is created' -> 'La tarea con nombre "?1" es creada'
+'the task with id "(?)" is deleted' -> 'La tarea con id "?1" es borrada'
+
+'the admin is notified that the task does not exist' -> 'el admin es notificado que la tarea no existe'
