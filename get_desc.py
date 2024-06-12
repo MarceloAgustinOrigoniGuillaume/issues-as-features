@@ -10,19 +10,49 @@ MARK_SCRIPT_URL = "-sc/"
 if(__name__ == "__main__"):
 
 	import sys
-	base_url = sys.argv[0][:-len("main.py")]
+	base_url = sys.argv[0][:-len("get_desc.py")]
 	ghfeat.parse_path = lambda url: parse_path(url, MARK_SCRIPT_URL, base_url)
 	
 	print("Directory root for script?",base_url)
-	if(len(sys.argv)>1):
-		ghfeat.load_feat(ghfeat.parse_path(sys.argv[1]))
+	if(len(sys.argv)==1):
+		print("no url was passed to description getter!")
+		exit()
 
 
-		if(len(sys.argv)>2):
-			print("FOR NOW IGNORE trans at ",ghfeat.parse_path(sys.argv[2]))
-			#ghtrans.parse_translations(ghfeat.parse_path(sys.argv[2]))
+	feats = []
+	url = sys.argv[1]
+	if(os.path.isfile(url)):
+		feats.append(url)
+	elif(os.path.isdir(url)):
+		print("SHOULD SEARCH IN DIRECTORY FOR .feature?")
 
 
-	command = input("action>")
-	while(ghfeat.exec(command, ghfeat.feature)):
-		command = input("action>")
+
+
+
+	getter = ghfeat.parse
+	if(len(sys.argv)>2):
+		translations = ""
+		tabled = False
+
+		for arg in sys.argv[2:]:
+			if(arg == "-t"):
+				tabled = True
+			elif translations== "":
+				translations = arg
+
+
+		print("TRANS '"+ghfeat.parse_path(translations)+"' from ", translations)
+		if(translations != ""):
+			ghtrans.parse_translations(ghfeat.parse_path(translations))
+
+		if(tabled):
+			getter = ghfeat.parse_table
+
+	for feat in feats:
+		print("----------------- for feature :: ",feat)
+		ghfeat.load_feat(feat)
+
+
+		print("\n------------- description parsing")
+		print(getter(ghfeat.feature))

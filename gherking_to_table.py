@@ -44,7 +44,7 @@ class Scenario:
 
 		self.title = parts[0]
 
-		print("\n----parsing scenario::",self.title)
+		print("\n----loading scenario::",self.title)
 
 		#parts =parts[1:]
 
@@ -100,6 +100,7 @@ class Feature:
 			raise Exception("invalid format!! NO feature found!")
 
 		self.title = match_found.group(1)
+		print("\n----loading feature::",self.title)
 
 
 		#print("RES",self.title)
@@ -200,7 +201,7 @@ def load_feat(path):
 
 	hnd.close()
 
-	print("-----------loaded ",path, feature)
+	#print("-----------loaded ",path, feature)
 
 def check_match(feat, pattern, baseTrans):
 	if len(translations) == 0:

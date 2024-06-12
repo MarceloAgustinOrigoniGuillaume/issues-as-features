@@ -224,4 +224,3 @@ def parse_translations(file):
 	hnd.close()
 
 	print("------- parsing of",file,"ended ")
-	print(len(trans_keys))
