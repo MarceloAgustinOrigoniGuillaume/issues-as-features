@@ -1,0 +1,25 @@
+# Create a project
+## Escenario: Project created successfully
+### Dado: los proyectos
+|name|objective|deadline|leader|aprox_time|status|
+|-|-|-|-|-|-|
+|CORE_ERP_v12|add features to configurate a flexible cost calculator|2024-12-31|Isaias|120h|in progress|
+|PROYECTS_SERVICE_v2|add feature to interact with ERP to estimate costs|2024-07-25|None|70h|NEW|
+### y los empleados
+|name|worker_number|
+|-|-|
+|Isaias|1|
+### Cuando: el admin crea un proyecto con nombre "CORE_PHYSICS_ENG_v2"
+### Entonces: El proyecto con nombre "CORE_PHYSICS_ENG_v2" es creado
+## Escenario: Project with same name already exists
+### Dado: los proyectos
+|name|objective|deadline|leader|aprox_time|status|
+|-|-|-|-|-|-|
+|CORE_ERP_v12|add features to configurate a flexible cost calculator|2024-12-31|Isaias|120h|in progress|
+|PROYECTS_SERVICE_v2|add feature to interact with ERP to estimate costs|2024-07-25|None|70h|NEW|
+### y los empleados
+|name|worker_number|
+|-|-|
+|Isaias|1|
+### Cuando: el admin crea un proyecto con nombre "CORE_ERP_v12"
+### Entonces: el admin es notificado que un proyecto con el mismo nombre ya existe

@@ -1,6 +1,63 @@
-import re,os
+import re,os,glob
 from translations_parser import *
 from reg_utils import *
+
+
+
+
+
+
+def search_features(where, found):
+	os.chdir(where)
+
+	lista = glob.glob("*")
+
+
+	for elem in lista:
+		if(os.path.isdir(elem)):
+			base = os.getcwd()
+			search_features(base+"\\"+elem, found)
+			os.chdir(base)
+		elif elem.endswith(".feature"):
+			found.append(where+"\\"+elem)
+
+
+def search_features_on(url):
+	base = os.getcwd()
+	lista = []
+	search_features(url,lista)
+	os.chdir(base)
+	return lista
+
+
+divider = grpn(opt(r"\\","/"))
+patt_part=grpn(exclude(divider),"?")+grpn(divider+any_except(divider), "*")
+
+patt_name = patt_part+divider+"us"+grp(exclude(grpn(r"\.feature")))+r"\.feature$"
+patt_issue = r"(\d+)_(.+)"
+
+def parse_feat_meta(path):
+
+	matc = re.match(patt_name, path)
+	if(matc != None):
+		parts = re.match(patt_issue, matc.groups()[0])
+		if(parts == None):
+			print("\n------------- did not match a user story issue! make sure the names starts with us<number> ",feat)
+			return None
+
+		parts = list(parts.groups())
+
+		name =  ("0"+str(int(parts[0])) if int(parts[0])<10 else parts[0])+" - "+parts[1]
+
+
+		return {
+			"number": parts[0],
+			"title": name,
+			"path": path
+		}
+	print("\n--------------invalid issue path?!?!",path)
+
+	return None
 
 scenario_title_gherking = "Scenario:"
 feature_title_gherking = "Feature:"
@@ -30,8 +87,6 @@ token_data =  grp(valid_mark_pat)+r"\s"+grp(any_except(valid_mark_pat+r"\s"))# a
 
 
 
-print("---------------- pat:\n",scenario_title+scenario_data)
-print("\n\n")
 
 class Scenario:
 	def __init__(self, parts):

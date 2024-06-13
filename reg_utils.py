@@ -11,6 +11,9 @@ def grp(reg, multiplicity = ""):
 def any_except(key):
 	return grpn(r"(?!"+key+r")(?:.|\s|\n|\t)", "*")
 
+def exclude(key):
+	return grpn(r"(?!"+key+r").", "*")
+
 
 def simple_part_patter(mark):
 	return r"("+mark+r")\s(.+)"+end_strip
